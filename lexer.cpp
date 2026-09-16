@@ -113,3 +113,24 @@ string TokeName(TokenType type)
             return "KEYWORD";
     }
 }
+
+bool isKeyword(string word)
+{
+    if (word == "if" || word == "else" || word == "while" || word == "return" || word == "int" || word == "char")
+    {
+         return true;    
+    }   
+
+    return false;
+}
+
+
+class Lexer
+{
+private:
+    string source;
+    int postion;
+
+    Lexer(string intput) : source(intput), postion(0) 
+    {}
+};
