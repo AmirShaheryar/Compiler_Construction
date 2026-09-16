@@ -280,7 +280,7 @@ private:
 
                     break;
                 }
-            case 1:
+                case 1:
                 {
                     ch = getChar();
 
@@ -299,14 +299,14 @@ private:
 
                     break;
                 }
-            case 2:
+                case 2:
                 {
                     if (isKeyword(lexeme))
                         return {KEYWORD, lexeme};
 
                     return {IDENTIFIER, lexeme};
                 }
-             case 3:
+                case 3:
                 {
                     ch = getChar();
 
@@ -325,12 +325,12 @@ private:
 
                     break;
                 }
-            case 4:
+                case 4:
                 {
                     return {INTEGER, lexeme};
                 }
 
-            case 5:
+                case 5:
                 {
                     ch=getChar();
                     if(ch=='=')
@@ -343,17 +343,18 @@ private:
                         Retract();
                         state=7;
                     }
-            case 6:
+                }
+                case 6:
                 {
                     return{LESS_EQUAL,lexeme};
                 }
 
-            case 7:
+                case 7:
                 {
                     return{LESS,lexeme};
                 }
             
-            case 8:
+                case 8:
                 {
                     ch=getChar();
                     if(ch=='=')
@@ -368,16 +369,16 @@ private:
                     }
                     break;
                 }
-            case 9:
+                case 9:
                 {
                     return{EQUAL,lexeme};
                 }
 
-            case 10:
+                case 10:
                 {
                     return {ASSIGN,lexeme};
                 }
-            case 11:
+                case 11:
                 {
                     ch = getChar();
 
@@ -397,16 +398,16 @@ private:
                     break;
                 }
                 
-            case 12:
+                case 12:
                 {
                     return {GREATER_EQUAL, lexeme};
                 }
-            case 13:
-            {   {
+                case 13:
+                {
                     return {GREATER, lexeme};
                 }
-            }
-            case 14:
+            
+                case 14:
                 {
                     ch = getChar();
 
@@ -505,31 +506,107 @@ private:
                 }
 
 
-                // ==================================================
-                // STATE 23
-                // *
-                // ==================================================
-
                 case 23:
                 {
                     state = 24;
-
                     break;
                 }
-
-
-                // ==================================================
-                // STATE 24 *
-                // *
-                // ==================================================
 
                 case 24:
                 {
                     return {MULTIPLY, lexeme};
                 }
+                
+                case 25:
+                {
+                    ch = getChar();
 
+                    if (ch == '\0')
+                    {
+                        state = 28;
+                    }
+                    else
+                    {
+                        lexeme += ch;
+
+                        state = 26;
+                    }
+
+                    break;
+                }
+
+
+                
+                case 26:
+                {
+                    ch = getChar();
+
+                    if (ch == '\'')
+                    {
+                        lexeme += ch;
+
+                        state = 27;
+                    }
+                    else
+                    {
+                        state = 28;
+                    }
+
+                    break;
+                }
+
+
+                
+                case 27:
+                {
+                    return {CHAR_LITERAL, lexeme};
+                }
+
+
+
+                case 28:
+                {
+                    return {ERROR, lexeme};
+                }
+
+
+
+                case 29:
+                {
+                    state = 30;
+
+                    break;
+                }
+
+
+            
+                case 30:
+                {
+                    if (lexeme == ";")
+                        return {SEMICOLON, lexeme};
+
+                    if (lexeme == ",")
+                        return {COMMA, lexeme};
+
+                    if (lexeme == "(")
+                        return {LPAREN, lexeme};
+
+                    if (lexeme == ")")
+                        return {RPAREN, lexeme};
+
+                    if (lexeme == "{")
+                        return {LBRACE, lexeme};
+
+                    if (lexeme == "}")
+                        return {RBRACE, lexeme};
+
+                    return {ERROR, lexeme};
+                }
+                default:
+                {
+                    return {ERROR, "Invalid State"};
+                }
             }
-
         }
     }
 };
