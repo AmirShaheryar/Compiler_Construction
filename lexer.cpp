@@ -280,8 +280,31 @@ private:
 
                     break;
                 }
+            case 1:
+                {
+                    ch = getChar();
+
+                    if (isalpha(ch) ||
+                        isdigit(ch) ||
+                        ch == '_')
+                    {
+                        lexeme += ch;
+
+                        state = 1;
+                    }
+                    else
+                    {
+                        retract();
+
+                        state = 2;
+                    }
+
+                    break;
+                }
+
             }
-        }
         
+        }
+
     }
 };
