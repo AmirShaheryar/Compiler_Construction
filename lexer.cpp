@@ -149,4 +149,16 @@ private:
         if (position > 0)
             position--;
     }
+
+    void SkipWhitespace()
+    {
+        while (isspace(source[position]))
+            position++;
+    }
+
+    Token getNextToken()
+    {
+        int state=0;
+        
+    }
 };
