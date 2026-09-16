@@ -159,6 +159,129 @@ private:
     Token getNextToken()
     {
         int state=0;
+        string lexeme="";
+
+        char ch;
+
+        while (true)
+        {
+            switch (state)
+            {
+                case 0:
+                {
+                    SkipWhitespace();
+
+                    ch = getChar();
+
+                    if (ch == '\0')
+                    {
+                        return {END_OF_FILE, ""};
+                    }
+
+
+
+                    if (isalpha(ch) || ch == '_')
+                    {
+                        lexeme += ch;
+
+                        state = 1;
+                    }
+
+
+                    else if (isdigit(ch))
+                    {
+                        lexeme += ch;
+
+                        state = 3;
+                    }
+
+                    else if (ch == '=')
+                    {
+                        lexeme += ch;
+
+                        state = 5;
+                    }
+
+                    else if (ch == '<')
+                    {
+                        lexeme += ch;
+
+                        state = 8;
+                    }
+
+                    else if (ch == '>')
+                    {
+                        lexeme += ch;
+
+                        state = 11;
+                    }
+
+                    else if (ch == '!')
+                    {
+                        lexeme += ch;
+
+                        state = 14;
+                    }
+
+                    else if (ch == '+')
+                    {
+                        lexeme += ch;
+
+                        state = 17;
+                    }
+
+                    else if (ch == '-')
+                    {
+                        lexeme += ch;
+
+                        state = 20;
+                    }
+
+                    else if (ch == '*')
+                    {
+                        lexeme += ch;
+
+                        state = 23;
+                    }
+
+                    else if (ch == '\'')
+                    {
+                        lexeme += ch;
+
+                        state = 25;
+                    }
+
+                    else if (ch == '/')
+                    {
+                        lexeme += ch;
+
+                        return {DIVIDE, lexeme};
+                    }
+
+                    else if (ch == ';' ||
+                             ch == ',' ||
+                             ch == '(' ||
+                             ch == ')' ||
+                             ch == '{' ||
+                             ch == '}')
+                    {
+                        lexeme += ch;
+
+                        state = 29;
+                    }
+
+
+                    else
+                    {
+                        lexeme += ch;
+
+                        return {ERROR, lexeme};
+                    }
+
+                    break;
+                }
+            }
+        }
         
     }
 };
