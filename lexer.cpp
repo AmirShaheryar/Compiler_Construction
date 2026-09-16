@@ -129,8 +129,24 @@ class Lexer
 {
 private:
     string source;
-    int postion;
+    int position;
 
-    Lexer(string intput) : source(intput), postion(0) 
+    Lexer(string input) : source(input), position(0) 
     {}
+
+
+    char getChar()
+    {
+        if (position>= (int)source.length())
+            return '\0';
+
+        return source[position++];
+    }
+
+
+    void Retract()
+    {
+        if (position > 0)
+            position--;
+    }
 };
