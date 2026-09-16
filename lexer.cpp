@@ -294,17 +294,40 @@ private:
                     }
                     else
                     {
-                        retract();
+                        Retract();
 
                         state = 2;
                     }
 
                     break;
                 }
+            case 2:
+                {
+                    if (isKeyword(lexeme))
+                        return {KEYWORD, lexeme};
 
+                    return {IDENTIFIER, lexeme};
+                }
+             case 3:
+                {
+                    ch = getChar();
+
+                    if (isdigit(ch))
+                    {
+                        lexeme += ch;
+
+                        state = 3;
+                    }
+                    else
+                    {
+                        Retract();
+
+                        state = 4;
+                    }
+
+                    break;
+                }
             }
-        
         }
-
     }
 };
