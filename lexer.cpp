@@ -52,7 +52,7 @@ struct Token
     string lexeme;
 };
 
-string TokeName(TokenType type)
+string TokenName(TokenType type)
 {
     switch(type)
     {
@@ -130,8 +130,8 @@ class Lexer
 private:
     string source;
     int position;
-
-    Lexer(string input) : source(input), position(0) 
+public:
+    Lexer(string input) : source(input),position(0)
     {}
 
 
@@ -610,3 +610,61 @@ private:
         }
     }
 };
+
+
+int main()
+{
+    ifstream inputFile("input.txt");
+
+    if (!inputFile)
+    {
+        cout << "Error: input.txt could not be opened." << endl;
+        return 1;
+    }
+
+    ofstream outputFile("output.txt");
+
+    if (!outputFile)
+    {
+        cout << "Error: output.txt could not be created." << endl;
+        return 1;
+    }
+
+    string source;
+    string line;
+
+    while (getline(inputFile, line))
+    {
+        source += line;
+        source += '\n';
+    }
+
+    inputFile.close();
+
+    // Create lexer
+    Lexer lexer(source);
+
+    // Header
+    outputFile << "C++ LEXICAL ANALYZER OUTPUT\n";
+    outputFile << "========================================\n\n";
+    outputFile << "LEXEME\t\tTOKEN\n";
+    outputFile << "----------------------------------------\n";
+
+    while (true)
+    {
+        Token token = lexer.getNextToken();
+
+        if (token.type == END_OF_FILE)
+            break;
+
+        outputFile << token.lexeme << "\t\t"<< TokenName(token.type)<< "\n";
+    }
+
+    outputFile.close();
+
+    cout << "Lexical analysis completed successfully!\n";
+    cout << "Input  : input.txt\n";
+    cout << "Output : output.txt\n";
+
+    return 0;
+}
