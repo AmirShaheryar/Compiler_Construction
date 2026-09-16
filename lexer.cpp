@@ -284,9 +284,7 @@ private:
                 {
                     ch = getChar();
 
-                    if (isalpha(ch) ||
-                        isdigit(ch) ||
-                        ch == '_')
+                    if (isalpha(ch) || isdigit(ch) || ch == '_')
                     {
                         lexeme += ch;
 
@@ -345,15 +343,14 @@ private:
                         Retract();
                         state=7;
                     }
-                }
             case 6:
                 {
-                    return{EQUAL,lexeme};
+                    return{LESS_EQUAL,lexeme};
                 }
 
             case 7:
                 {
-                    return{ASSIGN,lexeme};
+                    return{LESS,lexeme};
                 }
             
             case 8:
@@ -373,18 +370,18 @@ private:
                 }
             case 9:
                 {
-                    return{LESS_EQUAL,lexeme};
+                    return{EQUAL,lexeme};
                 }
 
             case 10:
                 {
-                    return {LESS,lexeme};
+                    return {ASSIGN,lexeme};
                 }
             case 11:
                 {
                     ch = getChar();
 
-                    if (ch == '=')
+                    if (ch == '>')
                     {
                         lexeme += ch;
 
@@ -404,8 +401,122 @@ private:
                 {
                     return {GREATER_EQUAL, lexeme};
                 }
-
+            case 13:
+            {   {
+                    return {GREATER, lexeme};
+                }
             }
+            case 14:
+                {
+                    ch = getChar();
+
+                    if (ch == '=')
+                    {
+                        lexeme += ch;
+
+                        state = 15;
+                    }
+                    else
+                    {
+                        Retract();
+
+                        state = 16;
+                    }
+
+                    break;
+                }
+
+                case 15:
+                {
+                    return {NOT_EQUAL, lexeme};
+                }
+
+
+                // ==================================================
+                // STATE 16 *
+                // !
+                // ==================================================
+
+                case 16:
+                {
+                    return {NOT, lexeme};
+                }
+
+
+                // ==================================================
+                // STATE 17
+                // +
+                // ==================================================
+
+                case 17:
+                {
+                    ch = getChar();
+
+                    if (ch == '+')
+                    {
+                        lexeme += ch;
+
+                        state = 18;
+                    }
+                    else
+                    {
+                        retract();
+
+                        state = 19;
+                    }
+
+                    break;
+                }
+
+
+                // ==================================================
+                // STATE 18 *
+                // ++
+                // ==================================================
+
+                case 18:
+                {
+                    return {INCREMENT, lexeme};
+                }
+
+
+                // ==================================================
+                // STATE 19 *
+                // +
+                // ==================================================
+
+                case 19:
+                {
+                    return {PLUS, lexeme};
+                }
+
+
+                // ==================================================
+                // STATE 20
+                // -
+                // ==================================================
+
+                case 20:
+                {
+                    ch = getChar();
+
+                    if (ch == '-')
+                    {
+                        lexeme += ch;
+
+                        state = 21;
+                    }
+                    else
+                    {
+                        retract();
+
+                        state = 22;
+                    }
+
+                    break;
+                }
+
+
         }
     }
 };
