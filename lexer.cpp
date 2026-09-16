@@ -347,9 +347,64 @@ private:
                     }
                 }
             case 6:
-            {
-                return{EQUAL,lexeme};
-            }
+                {
+                    return{EQUAL,lexeme};
+                }
+
+            case 7:
+                {
+                    return{ASSIGN,lexeme};
+                }
+            
+            case 8:
+                {
+                    ch=getChar();
+                    if(ch=='=')
+                    {
+                        lexeme+=ch;
+                        state=9;
+                    }
+                    else
+                    {
+                        Retract();
+                        state=10;
+                    }
+                    break;
+                }
+            case 9:
+                {
+                    return{LESS_EQUAL,lexeme};
+                }
+
+            case 10:
+                {
+                    return {LESS,lexeme};
+                }
+            case 11:
+                {
+                    ch = getChar();
+
+                    if (ch == '=')
+                    {
+                        lexeme += ch;
+
+                        state = 12;
+                    }
+                    else
+                    {
+                        Retract();
+
+                        state = 13;
+                    }
+
+                    break;
+                }
+                
+            case 12:
+                {
+                    return {GREATER_EQUAL, lexeme};
+                }
+
             }
         }
     }
