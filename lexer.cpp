@@ -327,6 +327,29 @@ private:
 
                     break;
                 }
+            case 4:
+                {
+                    return {INTEGER, lexeme};
+                }
+
+            case 5:
+                {
+                    ch=getChar();
+                    if(ch=='=')
+                    {
+                        lexeme+=ch;
+                        state=6;
+                    }
+                    else
+                    {
+                        Retract();
+                        state=7;
+                    }
+                }
+            case 6:
+            {
+                return{EQUAL,lexeme};
+            }
             }
         }
     }
