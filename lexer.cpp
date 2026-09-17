@@ -200,14 +200,14 @@ public:
                         state = 3;
                     }
 
-                    else if (ch == '=')
+                    else if (ch == '<')
                     {
                         lexeme += ch;
 
                         state = 5;
                     }
 
-                    else if (ch == '<')
+                    else if (ch == '=')
                     {
                         lexeme += ch;
 
@@ -343,6 +343,11 @@ public:
                         lexeme+=ch;
                         state=6;
                     }
+                    else if(ch=='<')
+                    {
+                        lexeme+=ch;
+                        state=31;
+                    }
                     else
                     {
                         Retract();
@@ -366,11 +371,6 @@ public:
                     {
                         lexeme+=ch;
                         state=9;
-                    }
-                    else if(ch=='<')
-                    {
-                        lexeme+=ch;
-                        state=31;
                     }
                     else
                     {
@@ -621,12 +621,12 @@ public:
 
                 case 31:
                 {
-                    return {INPUT, lexeme};
+                    return {OUTPUT, lexeme};
                 }
 
                 case 32:
                 {
-                    return {OUTPUT, lexeme};
+                    return {INPUT, lexeme};
                 }
                 default:
                 {
