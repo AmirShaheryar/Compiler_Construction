@@ -157,10 +157,11 @@ public:
 
     void SkipWhitespace()
     {
-        while (isspace(source[position]))
+        while (position < (int)source.length() && isspace((unsigned char)source[position]))
+        {
             position++;
+        }
     }
-
     Token getNextToken()
     {
         int state=0;
