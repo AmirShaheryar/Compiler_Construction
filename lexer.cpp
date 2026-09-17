@@ -340,21 +340,25 @@ public:
                 case 5:
                 {
                     ch=getChar();
-                    if(ch=='=')
-                    {
-                        lexeme+=ch;
-                        state=6;
-                    }
-                    else if(ch=='<')
+                    if(ch=='<')
                     {
                         lexeme+=ch;
                         state=31;
                     }
+
+                    else if(ch=='=')
+                    {
+                        lexeme+=ch;
+                        state=6;
+                    }
+
+
                     else
                     {
                         Retract();
                         state=7;
                     }
+                    break;
                 }
                 case 6:
                 {

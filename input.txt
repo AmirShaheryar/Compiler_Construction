@@ -1,8 +1,18 @@
 int main()
 {
-    char a='a';
-    int a;
-    cin>>a;
+    int a=5;
     cout<<a;
-    cout<<a==a;
+    cin>>a;
+    cout<<5==5;
+    cout<<5<=4;
+    cout<<5>=6;
+    cout<<5>6;
+    if(a)
+    {
+        cout<<"Yes";
+    }
+    else
+    {
+        cout<<"No";
+    }
 }
