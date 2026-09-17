@@ -115,7 +115,8 @@ string TokenName(TokenType type)
             return "END_OF_FILE";
         case ERROR:
             return "ERROR";
-            return "KEYWORD";
+        default:
+            return "UNKNOWN";
     }
 }
 
