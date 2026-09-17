@@ -41,6 +41,9 @@ enum TokenType {
     LBRACE,
     RBRACE,
 
+    INPUT,
+    OUTPUT,
+
     END_OF_FILE,
     ERROR
 
@@ -58,8 +61,6 @@ string TokenName(TokenType type)
     {
         case KEYWORD:
             return "KEYWORD";
-
-        
         case IDENTIFIER:
             return "IDENTIFIER";
         case INTEGER:
@@ -106,6 +107,10 @@ string TokenName(TokenType type)
             return "LBRACE";
         case RBRACE:
             return "RBRACE";
+        case INPUT:
+            return "INPUT";
+        case OUTPUT:
+            return "OUTPUT";
         case END_OF_FILE:
             return "END_OF_FILE";
         case ERROR:
@@ -362,6 +367,11 @@ public:
                         lexeme+=ch;
                         state=9;
                     }
+                    else if(ch=='<')
+                    {
+                        lexeme+=ch;
+                        state=31;
+                    }
                     else
                     {
                         Retract();
@@ -382,11 +392,17 @@ public:
                 {
                     ch = getChar();
 
-                    if (ch == '>')
+                    if (ch == '=')
                     {
                         lexeme += ch;
 
                         state = 12;
+                    }
+                    else if (ch == '>')
+                    {
+                        lexeme += ch;
+
+                        state = 32;
                     }
                     else
                     {
@@ -601,6 +617,16 @@ public:
                         return {RBRACE, lexeme};
 
                     return {ERROR, lexeme};
+                }
+
+                case 31:
+                {
+                    return {INPUT, lexeme};
+                }
+
+                case 32:
+                {
+                    return {OUTPUT, lexeme};
                 }
                 default:
                 {

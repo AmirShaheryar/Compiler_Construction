@@ -1,7 +1,7 @@
-void Loop(int a)
+int main()
 {
-    for(int i=0;i<10;i++)
-    {
-        cout<<a*i;
-    }
+    char a='a';
+    int a;
+    cin>>a;
+    cout<<a;
 }
