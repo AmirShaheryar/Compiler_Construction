@@ -124,11 +124,10 @@ string TokenName(TokenType type)
 
 bool isKeyword(string word)
 {
-    if (word == "if" || word == "else" || word == "while" || word == "return" || word == "int" || word == "char")
+    if (word == "if" || word == "else" || word == "while" || word == "return" ||word == "int" || word == "char" || word == "void" || word == "in" || word == "out")
     {
-         return true;    
-    }   
-
+        return true;
+    }    
     return false;
 }
 
