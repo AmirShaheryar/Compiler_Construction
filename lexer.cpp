@@ -31,7 +31,7 @@ enum TokenType {
 
     MULTIPLY,
     DIVIDE,
-
+    MODULO,
     SEMICOLON,
     COMMA,
 
@@ -95,6 +95,8 @@ string TokenName(TokenType type)
             return "MULTIPLY";
         case DIVIDE:
             return "DIVIDE";
+        case MODULO:                 
+            return "MODULO";    
         case SEMICOLON:
             return "SEMICOLON";
         case COMMA:
@@ -163,6 +165,7 @@ public:
             position++;
         }
     }
+    
     Token getNextToken()
     {
         int state=0;
@@ -250,7 +253,11 @@ public:
 
                         state = 23;
                     }
-
+                    else if (ch == '%')
+                    {
+                        lexeme += ch;
+                        return {MODULO, lexeme};
+                    }
                     else if (ch == '\'')
                     {
                         lexeme += ch;
