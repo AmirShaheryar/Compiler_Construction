@@ -404,3 +404,53 @@ public:
         }
     }
 };
+int main()
+{
+    ifstream inputFile("input.txt");
+    if (!inputFile)
+    {
+        cout << "Error: input.txt could not be opened." << endl;
+        return 1;
+    }
+
+    ofstream outputFile("parse_output.txt");
+    if (!outputFile)
+    {
+        cout << "Error: parse_output.txt could not be created." << endl;
+        return 1;
+    }
+
+    string source, line;
+    while (getline(inputFile, line))
+    {
+        source += line;
+        source += '\n';
+    }
+    inputFile.close();
+
+    Lexer lexer(source);
+    Parser parser(lexer, outputFile);
+
+    outputFile << "LL(1) PARSER OUTPUT (parse trace)\n";
+    outputFile << "========================================\n";
+
+    try
+    {
+        parser.parse();
+        outputFile << "========================================\n";
+        outputFile << "RESULT: Parsing successful. No syntax errors.\n";
+        cout << "Parsing successful. No syntax errors.\n";
+    }
+    catch (const string &msg)
+    {
+        outputFile << "========================================\n";
+        outputFile << "RESULT: " << msg << "\n";
+        cout << msg << "\n";
+        outputFile.close();
+        return 1;
+    }
+
+    outputFile.close();
+    cout << "Trace written to parse_output.txt\n";
+    return 0;
+}
