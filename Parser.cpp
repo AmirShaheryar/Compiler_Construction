@@ -77,5 +77,15 @@ private:
                cur.type == SEMICOLON || cur.type == INCREMENT ||
                cur.type == DECREMENT;
     }
+    struct Scope
+    {
+        Parser &p;
+        Scope(Parser &parser, const string &name) : p(parser)
+        {
+            p.out << string(p.depth * 2, ' ') << name << "\n";
+            p.depth++;
+        }
+        ~Scope() { p.depth--; }
+    };
 
 }
