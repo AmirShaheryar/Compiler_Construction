@@ -138,6 +138,81 @@ public:
         if (isType()) advance();
         else throw string("Syntax error: expected type (int, char) but found " + found());
     }
+        void ParamList()
+    {
+        Scope s(*this, "ParamList");
+        if (isType())
+        {
+            Param();
+            while (cur.type == COMMA)
+            {
+                advance();
+                Param();
+            }
+        }
+    }
+
+    void Param()
+    {
+        Scope s(*this, "Param");
+        Type();
+        match(IDENTIFIER);
+    }
+
+    void Block()
+    {
+        Scope s(*this, "Block");
+        match(LBRACE);
+        StmtList();
+        match(RBRACE);
+    }
+
+    void StmtList()
+    {
+        Scope s(*this, "StmtList");
+        while (startsStmt())
+            Stmt();
+    }
+
+    void Stmt()
+    {
+        Scope s(*this, "Stmt");
+        if (isType())                    Decl();
+        else if (cur.type == IDENTIFIER) AssignStmt();
+        else if (isKw("if"))             IfStmt();
+        else if (isKw("while"))          WhileStmt();
+        else if (isKw("return"))         ReturnStmt();
+        else if (isKw("in"))             InputStmt();
+        else if (isKw("out"))            OutputStmt();
+        else if (cur.type == LBRACE)     Block();
+        else if (cur.type == SEMICOLON)  advance();
+        else if (cur.type == INCREMENT || cur.type == DECREMENT)
+        {
+            advance();
+            match(IDENTIFIER);
+            match(SEMICOLON);
+        }
+        else throw string("Syntax error: unexpected " + found() + " at start of statement");
+    }
+
+    void Decl()
+    {
+        Scope s(*this, "Decl");
+        Type();
+        IdList();
+        match(SEMICOLON);
+    }
+
+    void IdList()
+    {
+        Scope s(*this, "IdList");
+        DeclItem();
+        while (cur.type == COMMA)
+        {
+            advance();
+            DeclItem();
+        }
+    }
 
 
 }
