@@ -87,5 +87,57 @@ private:
         }
         ~Scope() { p.depth--; }
     };
+public:
+    Parser(Lexer &lx, ofstream &o) : lexer(lx), cur{END_OF_FILE, ""}, out(o), depth(0) {}
+
+    void parse()
+    {
+        advance();
+        Program();
+    }
+
+    void Program()
+    {
+        Scope s(*this, "Program");
+        FuncList();
+        if (cur.type != END_OF_FILE)
+            throw string("Syntax error: unexpected " + found() + " after last function");
+    }
+
+    void FuncList()
+    {
+        Scope s(*this, "FuncList");
+        Func();
+        while (isRetType())
+        {
+            Func();
+        }   
+    }
+
+    void Func()
+    {
+        Scope s(*this, "Func");
+        RetType();
+        match(IDENTIFIER);
+        match(LPAREN);
+        ParamList();
+        match(RPAREN);
+        Block();
+    }
+
+    void RetType()
+    {
+        Scope s(*this, "RetType");
+        if (isRetType()) advance();
+        else throw string("Syntax error: expected return type (int, char, void) but found " + found());
+    }
+
+    void Type()
+    {
+        Scope s(*this, "Type");
+        if (isType()) advance();
+        else throw string("Syntax error: expected type (int, char) but found " + found());
+    }
+
 
 }
